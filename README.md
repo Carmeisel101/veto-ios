@@ -63,6 +63,8 @@ lowercase → whitespace/punctuation split → WordPiece → `[CLS]`/`[SEP]` →
 Veto are the authority: every `input_ids` and `attention_mask` must match exactly. See `docs/architecture.md`.
 
 ## Simulator
+New to Xcode signing? Follow [docs/getting-started-xcode.md](docs/getting-started-xcode.md).
+
 Open `Veto.xcodeproj`, run the `Veto` scheme. The Test tab classifies text; About shows model/app versions and load time.
 
 ## Physical iPhone and Message Filter setup
