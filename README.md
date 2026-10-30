@@ -83,4 +83,8 @@ Distribution status (build-from-source only): [docs/distribution.md](docs/distri
 - Extension latency/memory on a real iPhone is **unmeasured** (see docs/device-testing.md).
 - Model (~43 MB) lives once in the embedded `VetoCore.framework`, shared by app and extension.
 - The exported threshold sits exactly at one validation score (noted in Veto's docs); FP16 can flip that edge case.
-- Filtered messages go to iOS's generic Junk list; iOS only invokes filters for unknown senders.
+- Filtered messages go to iOS's Spam list; iOS only invokes filters for unknown senders.
+
+## Contributing and contact
+See [CONTRIBUTING.md](CONTRIBUTING.md) (privacy rules first). Questions? Email **dev.meisel+veto@gmail.com**, and
+please don't include private message content.
