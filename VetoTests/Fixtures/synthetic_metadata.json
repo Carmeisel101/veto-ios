@@ -1,0 +1,10 @@
+{
+  "model_name": "veto-test", "model_version": "test-1", "base_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "model_type": "synthetic", "threshold": 0.8, "positive_label": "political_solicitation",
+  "negative_label": "not_political_solicitation", "max_sequence_length": 256,
+  "input_names": ["input_ids", "attention_mask"], "output_names": ["political_solicitation_probability"],
+  "minimum_deployment_target": "iOS17", "some_future_key": {"ignored": true},
+  "tokenizer": {"type": "BertTokenizer (WordPiece)", "vocab_size": 30522, "lowercase": true, "strip_accents": null,
+    "clean_text": true, "handle_chinese_chars": true, "unknown_token": "[UNK]",
+    "special_tokens": {"[PAD]": 0, "[UNK]": 100, "[CLS]": 101, "[SEP]": 102, "[MASK]": 103}}
+}

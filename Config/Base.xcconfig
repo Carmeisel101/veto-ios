@@ -1,0 +1,4 @@
+// Shared build settings. Override per developer in Config/Local.xcconfig (gitignored).
+VETO_BUNDLE_ID_PREFIX = com.example.veto-dev
+DEVELOPMENT_TEAM =
+#include? "Local.xcconfig"
