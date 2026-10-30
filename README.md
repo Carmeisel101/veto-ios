@@ -70,6 +70,8 @@ Open `Veto.xcodeproj`, run the `Veto` scheme. The Test tab classifies text; Abou
 ## Physical iPhone and Message Filter setup
 See [docs/device-testing.md](docs/device-testing.md). Simulator success does not prove the extension works on-device.
 
+Distribution status (build-from-source only): [docs/distribution.md](docs/distribution.md).
+
 ## Privacy model
 - Classification is on-device only; message text is never sent anywhere by Veto. No analytics, crash, ad or network SDKs.
 - The extension declares no network URL; message text is never logged (only error type on failure).
