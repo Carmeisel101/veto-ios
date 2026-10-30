@@ -25,12 +25,33 @@ Veto is built from people's private text messages.
 - When reporting a bug, **describe or rewrite** the message instead of pasting it, with placeholders for names,
   numbers and links.
 
-Before opening a PR, check that nothing private is staged:
+### Automated checks
+
+Every pull request, and every push to `main`, runs two jobs in GitHub Actions
+(`.github/workflows/ci.yml`). Both must pass before merging:
+
+- **No private data committed** (`scripts/check_repo_safety.py --all-history`): fails if the current tree **or any
+  commit in history** contains a trained model or Core ML package, model metadata, local signing configuration,
+  certificates or provisioning profiles, a Messages database, private keys or API tokens, a signing Team ID, an
+  absolute home-directory path, a real phone number or email address, or a fixture URL outside reserved example
+  domains. It also fails if source code adds networking APIs, analytics/crash/ad SDKs, a message-filter network URL
+  or a third-party dependency, or if `.gitignore` stops protecting the private artifacts. Deleting a file in a later
+  commit does not hide it, because history is scanned. The script prints paths and line numbers, never contents.
+- **Build and test** (`xcodebuild test` on the iOS Simulator): builds the app and extension and runs the tests that
+  don't need a private model. The model tests (`ModelParityTests`) are excluded from CI because every user's model is
+  private, so Core ML parity with Python is only verified locally. Run them before changing the tokenizer or the
+  model adapter.
+
+Run the same checks locally before you push:
 
 ```bash
-git status
-git diff --stat --cached
+python3 scripts/check_repo_safety.py --all-history
+python3 -m unittest scripts/test_check_repo_safety.py
+git status && git diff --stat --cached      # eyeball what is staged
 ```
+
+If a check flags something intentional (for example a deliberate change to the no-network rule), update
+`scripts/check_repo_safety.py` and the docs in the same pull request and explain why.
 
 If you accidentally commit private data, email dev.meisel+veto@gmail.com right away so the history can be rewritten.
 Deleting the file in a later commit is not enough.

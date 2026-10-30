@@ -129,6 +129,7 @@ xcodebuild test -project Veto.xcodeproj -scheme Veto \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
 ```
 
+- **CI** runs the safety scan (no private data, secrets or network code anywhere in history) and the model-free tests; see [CONTRIBUTING.md](CONTRIBUTING.md#automated-checks).
 - **Always run:** tokenizer, golden parity (70 fixtures), edge-case parity (31), metadata, threshold and fail-open tests.
 - **Need your model (skipped otherwise):** Core ML load, Python↔Core ML parity and latency. For parity, generate the
   reference once from the `veto` environment:
