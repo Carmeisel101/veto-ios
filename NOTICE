@@ -1,0 +1,24 @@
+veto-ios
+Copyright (c) 2026 Carlos Meisel. Licensed under the MIT License (see LICENSE).
+
+Third-party material
+--------------------
+
+ModelArtifacts/tokenizer/vocab.txt and tokenizer_config.json
+  The WordPiece vocabulary and tokenizer settings of the base model
+  sentence-transformers/all-MiniLM-L6-v2 (derived from the BERT uncased
+  vocabulary). That model is licensed under the Apache License, Version 2.0:
+  https://www.apache.org/licenses/LICENSE-2.0
+  The files are included as exported by the Veto project from that model,
+  solely so the Swift tokenizer can reproduce the base model's tokenization.
+
+Trained Veto models are not included
+------------------------------------
+
+This repository does not contain, and does not distribute, a trained Veto
+classifier. A Veto model is trained on its owner's private text messages and
+is deliberately kept out of version control and out of releases. Each user
+trains their own model with the separate `veto` project and imports it
+locally. The Core ML model that the app embeds when you build it is a
+derivative of the Apache-2.0 base model above plus your own training data;
+you are responsible for how you share any build that contains it.

@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  repo-safety:
+    name: No private data committed
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # full history, so a file that was committed and later deleted is still caught
+
+      - name: Test the safety checker
+        run: python3 -m unittest scripts/test_check_repo_safety.py
+
+      - name: Check the tree and all history (models, metadata, signing details, secrets, network code)
+        run: python3 scripts/check_repo_safety.py --all-history
+
+  swift-tests:
+    name: Build and test (iOS Simulator)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate the Xcode project
+        # No private model exists in CI: the app builds without one (it then fails open).
+        run: xcodegen generate
+
+      - name: Pick an iPhone simulator
+        run: |
+          NAME=$(xcrun simctl list devices available -j | python3 -c "
+          import json, sys
+          for runtime, devices in json.load(sys.stdin)['devices'].items():
+              if 'iOS' in runtime:
+                  for d in devices:
+                      if d['name'].startswith('iPhone'):
+                          print(d['name']); sys.exit(0)
+          sys.exit('no iPhone simulator available')")
+          echo "SIMULATOR=$NAME" >> "$GITHUB_ENV"
+
+      - name: Build the app and extension, run the model-free tests
+        # ModelParityTests needs a user's private model, so it only runs locally.
+        run: |
+          xcodebuild test \
+            -project Veto.xcodeproj \
+            -scheme Veto \
+            -destination "platform=iOS Simulator,name=$SIMULATOR" \
+            -skip-testing:VetoTests/ModelParityTests \
+            CODE_SIGNING_ALLOWED=NO

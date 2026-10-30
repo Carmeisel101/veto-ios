@@ -21,14 +21,12 @@ targets:
     platform: iOS
     sources:
       - path: VetoCore
-      - path: ModelArtifacts/veto.mlpackage
-        optional: true
-        buildPhase: sources
-      - path: ModelArtifacts/metadata.json
-        optional: true
-        buildPhase: resources
-      - path: ModelArtifacts/tokenizer/vocab.txt
-        buildPhase: resources
+      # Directory source so files that are not present (the private model) are simply skipped.
+      - path: ModelArtifacts
+        includes:
+          - veto.mlpackage
+          - metadata.json
+          - tokenizer/vocab.txt
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: $(VETO_BUNDLE_ID_PREFIX).veto.core
@@ -83,13 +81,11 @@ targets:
         excludes: ["Fixtures"]
       - path: VetoTests/Fixtures
         buildPhase: resources
-      - path: ModelArtifacts/tokenizer/golden_tokenization.json
-        buildPhase: resources
-      - path: ModelArtifacts/python_reference.json
-        optional: true
-        buildPhase: resources
-      - path: ModelArtifacts/metadata.json
-        optional: true
+      - path: ModelArtifacts
+        includes:
+          - tokenizer/golden_tokenization.json
+          - python_reference.json
+          - metadata.json
         buildPhase: resources
     dependencies:
       - target: VetoCore
