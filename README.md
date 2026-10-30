@@ -167,6 +167,7 @@ the authority, and new edge cases should come from the reference tokenizer, neve
 | [architecture.md](docs/architecture.md) | Targets, tokenizer decision, Core ML adapter, fail-open |
 | [model-contract.md](docs/model-contract.md) | The interface consumed from the Veto export |
 | [distribution.md](docs/distribution.md) | Why it's build-from-source and what may change |
+| [latency-report.md](docs/latency-report.md) | Measured latency (iPhone, simulator, Mac) and what is still unmeasured |
 
 ## Contributing
 
